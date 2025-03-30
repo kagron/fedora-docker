@@ -1,0 +1,19 @@
+services:
+  borgmatic:
+    image: ghcr.io/borgmatic-collective/borgmatic
+    container_name: borgmatic
+    restart: unless-stopped
+    hostname: fedora
+    volumes:
+      - /home:/mnt/source/home:ro # backup source
+      - /etc:/mnt/source/etc:ro # backup source
+      - ${VOLUME_TARGET}:/mnt/borg-repository # backup target
+      - $DOCKERDIR/appdata/borgmatic/borgmatic.d:/etc/borgmatic.d/ # borgmatic config file(s) + crontab.txt
+      - $DOCKERDIR/appdata/borgmatic/.config:/root/.config/borg # config and keyfiles
+      - $DOCKERDIR/appdata/borgmatic/.ssh:/root/.ssh # ssh key for remote repositories
+      - $DOCKERDIR/appdata/borgmatic/.cache:/root/.cache/borg # checksums used for deduplication
+    environment:
+      - TZ=${TZ}
+      - BORG_PASSPHRASE=${BORG_PASSPHRASE}
+      - RUN_ON_STARTUP=true
+
