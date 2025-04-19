@@ -1,33 +1,36 @@
 source_directories:
-    - /mnt/source
+  - /mnt/source
 repositories:
-    - path: /mnt/borg-repository
+  - path: /mnt/borg-repository
 
-#   Passphase is set in varibable $BORG_PASSPHRASE
-#   encryption_passphrase: "DoNotForgetToChangeYourPassphrase"
 compression: zlib,6
-archive_name_format: 'fedora-backup-{now:%Y-%m-%dT%H.%M}'
+archive_name_format: "fedora-backup-{now:%Y-%m-%dT%H.%M}"
 
 keep_daily: 3
 keep_weekly: 2
 keep_monthly: 3
 
-checks:
-  - name: repository
-    frequency: 2 weeks
-  - name: archives
-    frequency: always
-  - name: extract
-    frequency: 2 weeks
-  - name: data
-    frequency: 1 month
+skip_actions:
+  # Will do checks on media server
+  - check
 
-before_everything:
-    - echo "Starting a backup job."
-after_everything:
-    - echo "Backup created."
-on_error:
-    - echo "Error while creating a backup."
+commands:
+  - before: action
+    when: [create]
+    run:
+      - echo "Starting a backup"
+  - before: action
+    when: [compact]
+    run:
+      - echo "Starting compaction"
+  - before: action
+    when: [prune]
+    run:
+      - echo "Starting pruning"
+  - after: error
+    run:
+      - echo Error running borgmatic for {repository}: {error}
+  - after: everything
+    run:
+      - echo "Backup finished"
 
-# healthchecks:
-#     ping_url: ${BORG_HEALTHCHECK_URL}
