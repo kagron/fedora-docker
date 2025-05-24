@@ -29,7 +29,7 @@ commands:
       - echo "Starting pruning"
   - after: error
     run:
-      - echo Error running borgmatic for {repository}: {error}
+      - echo Error running borgmatic {error}
   - after: everything
     run:
       - echo "Backup finished"

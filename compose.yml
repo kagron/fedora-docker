@@ -12,8 +12,24 @@ services:
       - $DOCKERDIR/appdata/borgmatic/.config:/root/.config/borg # config and keyfiles
       - $DOCKERDIR/appdata/borgmatic/.ssh:/root/.ssh # ssh key for remote repositories
       - $DOCKERDIR/appdata/borgmatic/.cache:/root/.cache/borg # checksums used for deduplication
+      - $DOCKERDIR/appdata/borgmatic/log:/var/log
     environment:
       - TZ=${TZ}
       - BORG_PASSPHRASE=${BORG_PASSPHRASE}
       - RUN_ON_STARTUP=true
-
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    container_name: syncthing
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - PUID=${PUID}
+      - PGID=${PGID}
+    ports:
+      - 8384:8384
+      - 22000:22000
+      - 21027:21027/udp
+    volumes:
+      - /roms:/roms
+      - /home/kyle/:/mnt/home
+      - $DOCKERDIR/appdata/syncthing/config:/config
