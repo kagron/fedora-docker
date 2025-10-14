@@ -37,3 +37,12 @@ commands:
     run:
       - echo "Backup finished"
 
+pushover:
+  token: ${PUSHOVER_TOKEN}
+  user: ${PUSHOVER_USER_TOKEN}
+  fail:
+    message: "Backup <font color='#ff6961'>Failed</font>"
+    title: "Fedora Borgmatic Failed"
+    html: True
+  states:
+    - fail

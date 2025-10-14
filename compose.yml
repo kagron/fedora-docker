@@ -17,6 +17,8 @@ services:
       - TZ=${TZ}
       - BORG_PASSPHRASE=${BORG_PASSPHRASE}
       - RUN_ON_STARTUP=true
+      - PUSHOVER_TOKEN=${PUSHOVER_TOKEN}
+      - PUSHOVER_USER_TOKEN=${PUSHOVER_USER_TOKEN}
   syncthing:
     image: lscr.io/linuxserver/syncthing:latest
     container_name: syncthing
