@@ -1,4 +1,4 @@
-0 * * * * [[ $(/usr/bin/date +%H) != 3 ]] && PATH=$PATH:/usr/local/bin /usr/local/bin/borgmatic --stats -v 0 \
+0 * * * * [[ $(/bin/date +%H) != '03' ]] && PATH=$PATH:/usr/local/bin /usr/local/bin/borgmatic --stats -v 0 \
   --log-file /var/log/backup.log \
   --log-file-verbosity 0 \
   --log-file-format "{asctime} - {levelname} - {message}" \
