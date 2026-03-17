@@ -13,6 +13,7 @@ services:
       - $DOCKERDIR/appdata/borgmatic/.ssh:/root/.ssh # ssh key for remote repositories
       - $DOCKERDIR/appdata/borgmatic/.cache:/root/.cache/borg # checksums used for deduplication
       - $DOCKERDIR/appdata/borgmatic/log:/var/log
+      # - /:/mnt/root
     environment:
       - TZ=${TZ}
       - BORG_PASSPHRASE=${BORG_PASSPHRASE}
